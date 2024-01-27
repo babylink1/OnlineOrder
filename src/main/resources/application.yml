@@ -1,0 +1,25 @@
+spring:
+  jackson:
+    default-property-inclusion: non_null     #为空时才返回
+    property-naming-strategy: SNAKE_CASE  #snake 方式禀明
+  datasource:
+    url: jdbc:postgresql://${DATABASE_URL:localhost}:5432/onlineorder
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:secret}
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: ${INIT_DB:always}
+      schema-locations: "classpath:database-init.sql"
+
+  cache:
+    caffeine:
+      spec: expireAfterWrite=60s
+#      60s will fail after wrting 60s, entry by entry
+# also could set the size of cache,here
+
+logging:
+  level:
+    org.apache.coyote.http11.Http11InputBuffer: DEBUG  #incoming http requiries
+    org.springframework.jdbc.datasource.init: DEBUG
+    org.springframework.jdbc.core: DEBUG  #SQL
